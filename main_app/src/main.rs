@@ -1,6 +1,14 @@
 // https://github.com/unknownue/vulkan-tutorial-rust/tree/master/src/tutorials
 
+use std::ffi::CString;
+use std::ptr;
+
 use winit::{ ControlFlow, Event, EventsLoop, VirtualKeyCode, WindowEvent };
+
+use ash::version::EntryV1_1;
+use ash::version::InstanceV1_1;
+use ash::vk;
+
 
 // constants
 const WINDOW_TITLE : &'static str = "main_app";
@@ -10,6 +18,9 @@ struct APP
 {
     events_loop : EventsLoop,
     window      : winit::Window,
+    
+    entry       : ash::Entry,
+    instance    : ash::Instance,
 }
 
 impl APP
@@ -18,11 +29,16 @@ impl APP
     {
         let events_loop = EventsLoop::new();
         let window = APP::init_window(&events_loop);
+        
+        let entry = ash::Entry::new();
+        let instance = APP::create_instance(&entry); 
 
         APP
         {
             events_loop,
             window,
+            entry,
+            instance,
         }
     }
 
@@ -45,6 +61,11 @@ impl APP
                 _ => winit::ControlFlow::Continue,
             }
         });
+    }
+
+    fn create_instance(entry : &ash::Entry) -> ash::Instance
+    {
+        
     }
 }
 
