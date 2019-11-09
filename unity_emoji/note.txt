@@ -1,2 +1,0 @@
-https://forum.unity.com/threads/full-emoji-support-api-emoji-sequen.660310/
-https://github.com/iamcal/emoji-data
