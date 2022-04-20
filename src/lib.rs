@@ -8,7 +8,7 @@ use winit::{
 };
 
 mod gfx;
-use gfx::device::State;   
+use gfx::device::State;
 
 // When the `wee_alloc` feature is enabled, this uses `wee_alloc` as the global
 // allocator.
@@ -17,7 +17,6 @@ use gfx::device::State;
 #[cfg(feature = "wee_alloc")]
 #[global_allocator]
 static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
-
 
 // This is like the `main` function, except for JavaScript.
 #[wasm_bindgen(start)]
@@ -42,17 +41,16 @@ pub async fn main_js() -> Result<(), JsValue> {
             env_logger::init();
         }
     }
-    
+
     let event_loop = EventLoop::new();
-    let window = WindowBuilder::new()
-        .build(&event_loop).unwrap();
+    let window = WindowBuilder::new().build(&event_loop).unwrap();
 
     {
         // Winit prevents sizing with CSS, so we have to set
         // the size manually when on web.
         use winit::dpi::PhysicalSize;
         window.set_inner_size(PhysicalSize::new(450u32, 400u32));
-        
+
         use winit::platform::web::WindowExtWebSys;
         web_sys::window()
             .and_then(|win| win.document())
@@ -66,6 +64,8 @@ pub async fn main_js() -> Result<(), JsValue> {
     }
 
     let mut state = State::new(&window).await;
+    state.create_render_pipeline();
+    state.create_mesh();
 
     event_loop.run(move |event, _, control_flow| match event {
         Event::WindowEvent {
@@ -95,7 +95,7 @@ pub async fn main_js() -> Result<(), JsValue> {
                 // All other errors (Outdated, Timeout) should be resolved by the next frame
                 Err(e) => eprintln!("{:?}", e),
             }
-        },
+        }
         Event::MainEventsCleared => {
             // RedrawRequested will only trigger once, unless we manually
             // request it.

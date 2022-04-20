@@ -37,6 +37,7 @@ env_logger = "0.9"
 wgpu = { version="0.12", features=["webgl"] }
 log = "0.4"
 console_log = "0.2.0"
+bytemuck = { version="1.4", features=["derive"] }
 
 # The `web-sys` crate allows you to interact with the various browser APIs,
 # like the DOM.
